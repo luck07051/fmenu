@@ -21,7 +21,7 @@ Available options are:
 -p Prompt
 -l Line/Height
 -c Column/Width
--f custom fzf options
+-f Custom fzf options
 -z Fontsize
 ```
 
