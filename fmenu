@@ -37,4 +37,19 @@ case $TERMINAL in
 	alacritty) term_cmd="alacritty -t $name -o window.dimensions.columns=${column} -o window.dimensions.lines=${line} -o font.size=${fontsize} -e" ;;
 esac
 
+# remember the window actived
+if [ -n "$WAYLAND_DISPLAY" ]; then
+	true
+elif [ -n "$DISPLAY" ]; then
+	actived_window="$(xdotool getactivewindow)"
+fi
+
+# spawn the fzf window
 $term_cmd sh -c "fzf $default_fzf_opt --prompt \"$prompt \" $fzf_opt </proc/$$/fd/0 >/proc/$$/fd/1"
+
+# restore actived window
+if [ -n "$WAYLAND_DISPLAY" ]; then
+	true
+elif [ -n "$DISPLAY" ]; then
+	xdotool windowactivate "$actived_window"
+fi
